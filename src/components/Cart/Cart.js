@@ -7,6 +7,8 @@ import Checkout from './Checkout';
 
 function Cart(props) {
 	const [isCheckout, setIsCheckout] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [didSubmit, setDidSubmit] = useState(false);
 	const cartCtx = useContext(CartContext);
 	const cartItemRemoveHandler = (id) => {
 		cartCtx.removeItem(id);
@@ -32,7 +34,8 @@ function Cart(props) {
 	};
 
 	const submitOrderHandler = async (userData) => {
-		await fetch(
+		setIsSubmitting(true);
+		const response = await fetch(
 			'https://react-http-d5e54-default-rtdb.europe-west1.firebasedatabase.app/orders.json',
 			{
 				method: 'POST',
@@ -42,10 +45,13 @@ function Cart(props) {
 				}),
 			}
 		);
+		setIsSubmitting(false);
+		setDidSubmit(true);
+		cartCtx.clearCart();
 	};
 
-	return (
-		<Modal onBackDropClick={props.onClose}>
+	const cartModal = (
+		<>
 			<ul className={style['cart-items']}>{cartItems}</ul>
 			<div className={style.total}>
 				<span>Total Amount</span>
@@ -66,6 +72,17 @@ function Cart(props) {
 			{isCheckout && (
 				<Checkout onOrder={submitOrderHandler} onCancel={props.onClose} />
 			)}
+		</>
+	);
+
+	const isSubmittingContent = <p>Sending order data...</p>;
+	const didSubmitContent = <p>The order is succesfully send</p>;
+
+	return (
+		<Modal onBackDropClick={props.onClose}>
+			{!isSubmitting && !didSubmit && cartModal}
+			{isSubmitting && isSubmittingContent}
+			{didSubmitContent && didSubmitContent}
 		</Modal>
 	);
 }

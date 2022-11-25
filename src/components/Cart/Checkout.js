@@ -46,7 +46,12 @@ const Checkout = (props) => {
 		if (!formIsValid) {
 			return;
 		}
-		console.log('OK');
+		props.onOrder({
+			name: enteredName,
+			street: enteredStreet,
+			city: enteredPostal,
+			postalCode: enteredCity,
+		});
 	};
 
 	return (

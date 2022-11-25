@@ -31,6 +31,19 @@ function Cart(props) {
 		setIsCheckout(true);
 	};
 
+	const submitOrderHandler = async (userData) => {
+		await fetch(
+			'https://react-http-d5e54-default-rtdb.europe-west1.firebasedatabase.app/orders.json',
+			{
+				method: 'POST',
+				body: JSON.stringify({
+					user: userData,
+					orderedItems: cartCtx.items,
+				}),
+			}
+		);
+	};
+
 	return (
 		<Modal onBackDropClick={props.onClose}>
 			<ul className={style['cart-items']}>{cartItems}</ul>
@@ -50,7 +63,9 @@ function Cart(props) {
 					)}
 				</div>
 			)}
-			{isCheckout && <Checkout onCancel={props.onClose} />}
+			{isCheckout && (
+				<Checkout onOrder={submitOrderHandler} onCancel={props.onClose} />
+			)}
 		</Modal>
 	);
 }

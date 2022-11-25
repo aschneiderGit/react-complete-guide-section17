@@ -9,9 +9,7 @@ function AvailableMeals() {
 	const [httpError, setHttpError] = useState();
 	useEffect(() => {
 		const fetchMeals = async () => {
-			const response = await fetch(
-				'https://react-http-d5e54-default-rtdb.europe-west1.firebasedatabase.app/meals.json'
-			);
+			const response = await fetch('YOUR_FIRE_BASE_URL/meals.json');
 			if (!response.ok) {
 				throw new Error('Something went wrong!');
 			}

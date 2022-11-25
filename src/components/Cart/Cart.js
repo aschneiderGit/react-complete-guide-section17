@@ -35,16 +35,13 @@ function Cart(props) {
 
 	const submitOrderHandler = async (userData) => {
 		setIsSubmitting(true);
-		const response = await fetch(
-			'https://react-http-d5e54-default-rtdb.europe-west1.firebasedatabase.app/orders.json',
-			{
-				method: 'POST',
-				body: JSON.stringify({
-					user: userData,
-					orderedItems: cartCtx.items,
-				}),
-			}
-		);
+		await fetch('YOUR_FIRE_BASE_URL/orders.json', {
+			method: 'POST',
+			body: JSON.stringify({
+				user: userData,
+				orderedItems: cartCtx.items,
+			}),
+		});
 		setIsSubmitting(false);
 		setDidSubmit(true);
 		cartCtx.clearCart();

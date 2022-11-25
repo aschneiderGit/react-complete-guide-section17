@@ -4,8 +4,6 @@ import Headers from './components/Layout/Header';
 import Meals from './components/Meals/Meals';
 import CardProvider from './store/CartProvider';
 
-// https://react-http-d5e54-default-rtdb.europe-west1.firebasedatabase.app/
-
 function App() {
 	const [cartIsShown, setCartIsShown] = useState(false);
 	const shownCartHandler = () => {
